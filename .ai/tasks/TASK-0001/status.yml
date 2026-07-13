@@ -1,9 +1,9 @@
 schema_version: 1
 task_id: TASK-0001
-version: 1
-status: APPROVED
+version: 2
+status: IMPLEMENTING
 resume_state: null
 branch: feature/task-0001
-baseline_commit: 7f23992
+baseline_commit: 6e08c9e
 updated_by: human_owner
 updated_at: 2026-07-13
