@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "aidevos"
 dynamic = ["version"]
-description = "Repository-native governance for AI coding agents"
+description = "Repository-native pre-commit governance and evidence CLI for AI-generated code"
 requires-python = ">=3.11"
 dependencies = []
 

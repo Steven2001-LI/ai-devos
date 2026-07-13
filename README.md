@@ -1,6 +1,6 @@
 # AI-DevOS
 
-AI-DevOS is a repository-native governance CLI for AI coding agents. This initial bootstrap exposes
+AI-DevOS is a repository-native pre-commit governance and evidence CLI for AI-generated code. This initial bootstrap exposes
 only `--help` and `--version`; protocol gates and task commands are intentionally deferred.
 
 The governing protocol is [AI-DevOS V4.2.1](docs/AI-DevOS-V4.2.1.md).

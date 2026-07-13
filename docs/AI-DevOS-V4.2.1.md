@@ -2866,9 +2866,7 @@ Agent Software Engineering Governance CLI
 ## 30.2 一句话描述
 
 ```text
-A repository-native governance CLI that coordinates AI coding agents through
-machine-validated task states, scope-aware Git diffs, immutable candidate
-snapshots, reproducible evidence and review-gated commits.
+A repository-native governance CLI that governs AI-generated code through machine-validated task states, scope-aware Git diffs, immutable candidate snapshots, reproducible evidence and review-gated commits.
 ```
 
 ## 30.3 真正技术亮点

@@ -12,7 +12,7 @@ def build_parser() -> argparse.ArgumentParser:
     """Create the top-level argument parser."""
     parser = argparse.ArgumentParser(
         prog="aidevos",
-        description="Repository-native governance for AI coding agents.",
+        description="Repository-native pre-commit governance and evidence CLI for AI-generated code.",
     )
     parser.add_argument("--version", action="version", version=__version__)
     return parser
