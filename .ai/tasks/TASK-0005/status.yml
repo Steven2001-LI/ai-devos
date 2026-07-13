@@ -1,0 +1,9 @@
+schema_version: 1
+task_id: TASK-0005
+version: 12
+status: APPROVED_FOR_COMMIT
+resume_state: null
+branch: feature/task-0005
+baseline_commit: 6678bd6
+updated_by: aidevos_cli
+updated_at: 2026-07-13T13:06:51Z

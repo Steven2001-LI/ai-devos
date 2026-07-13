@@ -1,7 +1,10 @@
 # AI-DevOS
 
-AI-DevOS is a repository-native pre-commit governance and evidence CLI for AI-generated code.
-The CLI includes deterministic validation for repository-native task contracts.
+AI-DevOS is a repository-native multi-model software development collaboration and governance system,
+built on a pre-commit governance and evidence CLI for AI-generated code.
+Implemented today: an installable governance CLI with `task.md` validation, declarative task state
+transitions, and atomic `status.yml` updates. Planned (not yet built): a Handoff Contract, Context
+Engineering, replaceable Adapters, a checkpointed Workflow Runner, and Agent Evaluation.
 
 The governing protocol is [AI-DevOS V4.2.1](docs/AI-DevOS-V4.2.1.md).
 

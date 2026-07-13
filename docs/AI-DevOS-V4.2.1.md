@@ -1,6 +1,6 @@
 # AI-DevOS V4.2.1
 
-> **定位**：一套面向 Claude Code、Codex、ChatGPT、Gemini、Cursor、Aider、OpenHands 等编码 Agent 的模型无关软件工程治理协议，以及将该协议逐步自动化的 CLI 工具设计。  
+> **定位**：一套仓库原生的多模型软件开发协作与治理系统，以面向 Claude Code、Codex、ChatGPT、Gemini、Cursor、Aider、OpenHands 等编码 Agent 的模型无关治理协议，以及将该协议逐步自动化的 pre-commit governance / evidence CLI 为系统内核。\
 > **核心原则**：Repository 是唯一事实来源；Agent 通过 Task、Approval、State、Evidence、Review、Git Branch 与 Worktree 协作，而不是依赖聊天记录。  
 > **当前目标**：先实现一个可测试、可演示、可真实使用的本地治理 CLI，而不是先开发完整的多 Agent 调度平台。
 
