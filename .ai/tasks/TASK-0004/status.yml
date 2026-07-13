@@ -1,9 +1,9 @@
 schema_version: 1
 task_id: TASK-0004
-version: 7
-status: APPROVED_FOR_COMMIT
+version: 8
+status: COMPLETED
 resume_state: null
 branch: feature/task-0004
 baseline_commit: 0b7465d
 updated_by: aidevos_cli
-updated_at: 2026-07-13T10:15:46Z
+updated_at: 2026-07-13T10:23:09Z
