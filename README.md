@@ -1,7 +1,7 @@
 # AI-DevOS
 
-AI-DevOS is a repository-native pre-commit governance and evidence CLI for AI-generated code. This initial bootstrap exposes
-only `--help` and `--version`; protocol gates and task commands are intentionally deferred.
+AI-DevOS is a repository-native pre-commit governance and evidence CLI for AI-generated code.
+The CLI includes deterministic validation for repository-native task contracts.
 
 The governing protocol is [AI-DevOS V4.2.1](docs/AI-DevOS-V4.2.1.md).
 
@@ -23,9 +23,14 @@ pip install -e ".[dev]"
 ```bash
 aidevos --help
 aidevos --version
+aidevos task validate TASK-0001
 python -m aidevos --help
 python -m aidevos --version
 ```
+
+Run task validation from the repository root. The command reads
+`.ai/tasks/<TASK-ID>/task.md` relative to the current directory and exits `0` for a valid document,
+`1` for document validation findings, or `2` for invalid usage and file-access failures.
 
 ## Development
 
