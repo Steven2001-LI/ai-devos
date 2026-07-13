@@ -1,7 +1,7 @@
 schema_version: 1
 task_id: TASK-0003
-version: 2
-status: APPROVED_FOR_COMMIT
+version: 3
+status: COMPLETED
 resume_state: null
 branch: feature/task-0003
 baseline_commit: 46585f6
