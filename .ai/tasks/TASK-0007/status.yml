@@ -1,0 +1,8 @@
+schema_version: 1
+task_id: TASK-0007
+version: 6
+status: APPROVED_FOR_COMMIT
+resume_state: null
+baseline_commit: 374905f
+updated_by: aidevos_cli
+updated_at: 2026-07-14T14:20:09Z
