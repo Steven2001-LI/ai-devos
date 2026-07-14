@@ -69,6 +69,34 @@ def _section_has_match(
     )
 
 
+def extract_section_body(text: str, section_name: str) -> str:
+    """Return the first named section body with boundary blank lines removed."""
+    occurrences = _parse_sections(text).get(section_name, [])
+    if not occurrences:
+        return ""
+
+    lines = occurrences[0]
+    start = 0
+    end = len(lines)
+    while start < end and not lines[start].strip():
+        start += 1
+    while end > start and not lines[end - 1].strip():
+        end -= 1
+    return "\n".join(lines[start:end])
+
+
+def extract_non_empty_bullets(text: str, section_name: str) -> list[str]:
+    """Return non-empty bullet bodies from the first named section in source order."""
+    occurrences = _parse_sections(text).get(section_name, [])
+    if not occurrences:
+        return []
+    return [
+        line.strip()[1:].strip()
+        for line in occurrences[0]
+        if NON_EMPTY_BULLET_PATTERN.fullmatch(line) is not None
+    ]
+
+
 def validate_task_document(task_id: str, text: str) -> list[str]:
     """Return deterministic validation findings for one task document."""
     findings: list[str] = []

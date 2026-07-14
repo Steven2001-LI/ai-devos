@@ -31,6 +31,37 @@ def write_status(root: Path, status: str = "IMPLEMENTING") -> Path:
     return path
 
 
+def write_handoff_task(root: Path) -> None:
+    task_directory = root / ".ai" / "tasks" / "TASK-0003"
+    task_directory.mkdir(parents=True)
+    (task_directory / "task.md").write_text(
+        (FIXTURES / "valid.md").read_text(encoding="utf-8"), encoding="utf-8"
+    )
+    (task_directory / "plan.md").write_text("Plan.\n", encoding="utf-8")
+    (task_directory / "approval.md").write_text("Approval.\n", encoding="utf-8")
+
+
+def handoff_command(handoff_id: str) -> list[str]:
+    return [
+        "handoff",
+        "generate",
+        "TASK-0003",
+        "--handoff-id",
+        handoff_id,
+        "--from-role",
+        "Engineer",
+        "--to-role",
+        "Reviewer",
+        "--agent-adapter",
+        "local",
+        "--failure-return-state",
+        "IMPLEMENTING",
+        "--context",
+        "README.md",
+        "Project context",
+    ]
+
+
 def test_version() -> None:
     result = subprocess.run(
         ["aidevos", "--version"],
@@ -52,6 +83,80 @@ def test_help() -> None:
 
     assert "usage: aidevos" in result.stdout
     assert "task" in result.stdout
+    assert "handoff" in result.stdout
+
+
+def test_handoff_generate_through_console_script(tmp_path: Path) -> None:
+    write_handoff_task(tmp_path)
+    (tmp_path / "README.md").write_text("Context.\n", encoding="utf-8")
+
+    result = subprocess.run(
+        ["aidevos", *handoff_command("cli-success")],
+        cwd=tmp_path,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert result.stdout == "TASK-0003: handoff cli-success generated\n"
+    assert result.stderr == ""
+    destination = tmp_path / ".ai" / "tasks" / "TASK-0003" / "handoffs" / "cli-success"
+    assert sorted(path.name for path in destination.iterdir()) == [
+        "handoff.json",
+        "prompt-pack.md",
+    ]
+
+
+def test_handoff_console_and_module_entry_points_match_on_independent_copies(
+    tmp_path: Path,
+) -> None:
+    roots = [tmp_path / name for name in ("console", "module")]
+    for root in roots:
+        write_handoff_task(root)
+        (root / "README.md").write_text("Context.\n", encoding="utf-8")
+
+    console = subprocess.run(
+        ["aidevos", *handoff_command("parity")],
+        cwd=roots[0],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    module = subprocess.run(
+        ["python", "-m", "aidevos", *handoff_command("parity")],
+        cwd=roots[1],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert module.returncode == console.returncode == 0
+    assert module.stdout == console.stdout
+    assert module.stderr == console.stderr == ""
+    for filename in ("handoff.json", "prompt-pack.md"):
+        relative = Path(".ai/tasks/TASK-0003/handoffs/parity") / filename
+        assert (roots[0] / relative).read_bytes() == (roots[1] / relative).read_bytes()
+
+
+def test_handoff_generate_requires_all_structural_arguments(tmp_path: Path) -> None:
+    for arguments in (
+        ["handoff", "generate", "TASK-0003"],
+        handoff_command("bad-arity") + ["--context", "README.md"],
+        ["handoff"],
+    ):
+        result = subprocess.run(
+            ["aidevos", *arguments],
+            cwd=tmp_path,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+
+        assert result.returncode == 2
+        assert result.stdout == ""
+        assert "usage:" in result.stderr
+        assert "Traceback" not in result.stderr
 
 
 def test_historical_tasks_validate_with_console_script() -> None:

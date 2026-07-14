@@ -4,7 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from aidevos.task_validation import validate_task, validate_task_document
+from aidevos.task_validation import (
+    extract_non_empty_bullets,
+    extract_section_body,
+    validate_task,
+    validate_task_document,
+)
 
 
 FIXTURES = Path(__file__).parent / "fixtures" / "tasks"
@@ -36,6 +41,27 @@ def test_leading_blank_lines_and_reordered_sections_are_valid() -> None:
     text = f"\n\n{title}## Background{background}## Metadata{metadata_body}"
 
     assert validate_task_document("TASK-0003", text) == []
+
+
+def test_extract_section_body_trims_only_boundary_blank_lines() -> None:
+    text = replace_once("Goal text.", "\n  First line.  \n\nSecond line.\n")
+
+    assert extract_section_body(text, "Goal") == "  First line.  \n\nSecond line."
+    assert extract_section_body(text, "Unknown") == ""
+
+
+def test_extract_non_empty_bullets_preserves_source_order() -> None:
+    text = replace_once(
+        "- `src/**`",
+        "Introductory text.\n- `src/**`\n  - nested detail\n-   tests/**   \n-   ",
+    )
+
+    assert extract_non_empty_bullets(text, "Allowed Patterns") == [
+        "`src/**`",
+        "nested detail",
+        "tests/**",
+    ]
+    assert extract_non_empty_bullets(text, "Unknown") == []
 
 
 @pytest.mark.parametrize("checked", ["x", "X"])
